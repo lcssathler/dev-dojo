@@ -11,7 +11,7 @@ public class EqualsTest01 {
         System.out.println();
 
         Smartphone s1 = new Smartphone("2NSB4", "Apple");
-        Smartphone s2 = new Smartphone("2NSB4", "Apple");
+        Smartphone s2 = new Smartphone("2NSB4", "Samsung");
         System.out.println(s1 == s2);
         System.out.println(s1.equals(s2));
     }

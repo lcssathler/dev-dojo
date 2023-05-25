@@ -8,4 +8,14 @@ public class Smartphone {
         this.serial = serial;
         this.manufacturer = manufacturer;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == null) return false;
+        if (this == obj) return true;
+        if (this.getClass() != obj.getClass()) return false;
+        Smartphone smartphone = (Smartphone) obj;
+        return (serial != null) && (this.serial.equals(smartphone.serial));
+
+    }
 }
