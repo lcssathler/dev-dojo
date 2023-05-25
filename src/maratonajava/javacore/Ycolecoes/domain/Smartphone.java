@@ -16,6 +16,13 @@ public class Smartphone {
         if (this.getClass() != obj.getClass()) return false;
         Smartphone smartphone = (Smartphone) obj;
         return (serial != null) && (this.serial.equals(smartphone.serial));
+    }
 
+    @Override
+    public int hashCode() {
+        if (this.serial != null) {
+            return this.serial.hashCode();
+        }
+        return 0;
     }
 }
