@@ -2,12 +2,15 @@ package maratonajava.javacore.Ycolecoes.domain;
 
 import java.util.Objects;
 
-public class Manga {
+public class Manga implements Comparable<Manga>{
     private Long id;
     private String name;
     private double price;
 
     public Manga(Long id, String name, double price) {
+        Objects.requireNonNull(id, "ID can not be null!");
+        Objects.requireNonNull(name, "Name field can not be null!");
+        Objects.requireNonNull(price, "Price field can not be null!");
         this.id = id;
         this.name = name;
         this.price = price;
@@ -45,5 +48,18 @@ public class Manga {
 
     public double getPrice() {
         return price;
+    }
+
+    @Override
+    public int compareTo(Manga otherManga) {
+//        if (this.id < otherManga.getId()){
+//            return -1;
+//        } else if (this.id.equals(otherManga.getId())) {
+//            return 0;
+//        } else {
+//            return 1;
+//        }
+
+        return this.id.compareTo(otherManga.getId());
     }
 }
