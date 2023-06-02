@@ -25,4 +25,12 @@ public class Smartphone {
         }
         return 0;
     }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
 }
