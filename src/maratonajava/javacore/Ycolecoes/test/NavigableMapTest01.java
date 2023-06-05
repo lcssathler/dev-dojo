@@ -1,6 +1,5 @@
 package maratonajava.javacore.Ycolecoes.test;
 
-import maratonajava.javacore.Ycolecoes.domain.Consumer;
 import maratonajava.javacore.Ycolecoes.domain.Manga;
 
 import java.util.Map;
