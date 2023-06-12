@@ -21,7 +21,7 @@ public class BehaviorParameterTest03 {
         System.out.println(filteredCars(cars, cars -> cars.getColor().equals("Grey")));
         System.out.println(filteredCars(cars, cars -> cars.getYear() < 2015));
 
-        System.out.println(filteredCars(numbers, num -> num % 2 == 0));
+        System.out.println(filteredCars(numbers, (Integer nums) -> nums % 2 == 0));
     }
 
     public static <T> List<T> filteredCars (List<T> list, Predicate<T> predicate) {
