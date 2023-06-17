@@ -9,7 +9,7 @@ public class StreamsTest01 {
             new LightNovel("Dragon Ball z", 2.55),
             new LightNovel("Full Metal Brotherhood", 9.45),
             new LightNovel("Naruto", 3.00),
-            new LightNovel("Akame Ga Kill", 5.67),
+            new LightNovel("Akame Ga Kill", 3.67),
             new LightNovel("Hellsing", 6.89)
     ));
 
