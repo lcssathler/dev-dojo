@@ -1,16 +1,10 @@
 package maratonajava.javacore.ZZDoptional.test;
 
-import maratonajava.javacore.ZZClambdas.domain.Anime;
 import maratonajava.javacore.ZZDoptional.domain.Manga;
 import maratonajava.javacore.ZZDoptional.repository.MangaRepository;
 
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.Supplier;
 
-interface TriFunction<T, U, V, R> {
-    R apply(T t, U u, V v);
-}
 
 public class OptionalTest02 {
     public static void main(String[] args) {
