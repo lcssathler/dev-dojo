@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class StreanTest06 {
+public class StreamTest06 {
     private static List<LightNovel> list = new ArrayList<>(List.of(
             new LightNovel("Dragon Ball z", 2.55),
             new LightNovel("No Game No Life", 11.43 ),
