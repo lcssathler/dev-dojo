@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StreamTest02 {
+public class StreamsTest02 {
     private static List<LightNovel> list = new ArrayList<>(List.of(
             new LightNovel("Dragon Ball z", 2.55),
             new LightNovel("Full Metal Brotherhood", 9.45),

@@ -2,7 +2,7 @@ package maratonajava.javacore.ZZEstreams.test;
 
 import java.util.List;
 
-public class StreamTest07 {
+public class StreamsTest07 {
     public static void main(String[] args) {
         List<Integer> integers = List.of(1, 2, 5, 12, 10);
         integers.stream()
