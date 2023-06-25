@@ -42,7 +42,5 @@ public class StreamTest13 {
                                                            : Promotion.UNDER_PROMOTION
                                            )));
 
-        }
     }
-
 }
