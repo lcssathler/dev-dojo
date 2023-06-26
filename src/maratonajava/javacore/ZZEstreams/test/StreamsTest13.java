@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class StreamTest13 {
+public class StreamsTest13 {
     private static List<LightNovel> list = new ArrayList<>(List.of(
             new LightNovel("Dragon Ball z", 2.55, Category.SHOUNEN),
             new LightNovel("Full Metal Brotherhood", 9.45, Category.SHOUNEN),
@@ -37,10 +36,14 @@ public class StreamTest13 {
         Map<Category, Map<Promotion, List<LightNovel>>> collect = list.stream()
             .collect(Collectors.groupingBy(LightNovel::getCategory,
                                              Collectors.groupingBy(
-                                                   ln -> ln.getPrice() >= 6
-                                                           ? Promotion.NORMAL_PRICE
-                                                           : Promotion.UNDER_PROMOTION
+                                                     StreamsTest13::apply
                                            )));
 
+    }
+
+    private static Promotion apply(LightNovel ln) {
+        return ln.getPrice() >= 6
+                ? Promotion.NORMAL_PRICE
+                : Promotion.UNDER_PROMOTION;
     }
 }
