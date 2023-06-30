@@ -62,10 +62,10 @@ public class ThreadTest01 {
 
 
         System.out.println(Thread.currentThread().getName());
-        Thread r1 = new Thread(new ThreadExampleRunnable('O'), "T1");
-        Thread r2 = new Thread(new ThreadExampleRunnable('p'), "T2");
-        Thread r3 = new Thread(new ThreadExampleRunnable('Q'), "T3");
-        Thread r4 = new Thread(new ThreadExampleRunnable('R'), "T4");
+        Thread r1 = new Thread(new ThreadExampleRunnable2('O'), "T1");
+        Thread r2 = new Thread(new ThreadExampleRunnable2('p'), "T2");
+        Thread r3 = new Thread(new ThreadExampleRunnable2('Q'), "T3");
+        Thread r4 = new Thread(new ThreadExampleRunnable2('R'), "T4");
 
         r1.start();
         r2.start();
