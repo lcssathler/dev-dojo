@@ -25,12 +25,17 @@ public class ThreadsAccountTest01 implements Runnable{
     }
 
     private void withdrawal(int amount) {
-        if (account.getBalance() >= amount) {
-            System.out.println(getName() + " is going to withdrawal money");
-            account.withdrawal(amount);
-            System.out.println(getName() + " finished withdrawing money. New balance: " + account.getBalance());
-        } else {
-            System.out.println(getName()+", insufficient balance to withdraw!");
+        System.out.println("\u001B[33m OUTSIDE " + getName() + "\u001B[m");
+        synchronized (account) {
+            System.out.println("\u001B[31m INSIDE " + getName() + " SYNCHORONIZED ACCOUNT \u001B[m");
+            if (account.getBalance() >= amount) {
+                System.out.println(getName() + " is going to withdrawal money");
+                account.withdrawal(amount);
+                System.out.println(getName() + " finished withdrawing money. New balance: " + account.getBalance());
+            } else {
+                System.out.println(getName() + ", insufficient balance to withdraw!");
+            }
+            System.out.println();
         }
     }
 
