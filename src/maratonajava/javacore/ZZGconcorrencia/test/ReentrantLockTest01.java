@@ -15,10 +15,6 @@ public class ReentrantLockTest01 implements Runnable {
     public void run() {
         lock.lock();
         try {
-            if (lock.isHeldByCurrentThread()) {
-                System.out.printf("Thread %s is holding lock%n", name);
-            };
-
             System.out.printf("%d threads waiting in queue%n", lock.getQueueLength());
             System.out.printf("Thread %s will wait for 2s%n", name);
             Thread.sleep(2000);
