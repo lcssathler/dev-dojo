@@ -1,4 +1,4 @@
-package maratonajava.javacore.ZZHdesignpatterns.domain;
+package maratonajava.javacore.ZZHdesignpatterns.factory.domain;
 
 public class CurrencyFactory {
     public Currency getCurrency(Country country) {

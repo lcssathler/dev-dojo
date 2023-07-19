@@ -1,6 +1,6 @@
-package maratonajava.javacore.ZZHdesignpatterns.test;
+package maratonajava.javacore.ZZHdesignpatterns.builder.test;
 
-import maratonajava.javacore.ZZHdesignpatterns.domain.Person;
+import maratonajava.javacore.ZZHdesignpatterns.builder.domain.Person;
 
 public class BuilderTest01 {
     public static void main(String[] args) {

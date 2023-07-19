@@ -1,4 +1,4 @@
-package maratonajava.javacore.ZZHdesignpatterns.domain;
+package maratonajava.javacore.ZZHdesignpatterns.factory.domain;
 
 public interface Currency {
     String getSymbol();

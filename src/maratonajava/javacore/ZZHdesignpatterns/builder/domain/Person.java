@@ -1,4 +1,4 @@
-package maratonajava.javacore.ZZHdesignpatterns.domain;
+package maratonajava.javacore.ZZHdesignpatterns.builder.domain;
 
 public class Person {
     private String name;
