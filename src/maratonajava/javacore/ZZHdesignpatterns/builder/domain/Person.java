@@ -20,6 +20,10 @@ public class Person {
                 '}';
     }
 
+    public String getName() {
+        return name;
+    }
+
     public static class PersonBuilder {
         private String name;
         private String middleName;

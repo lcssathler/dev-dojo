@@ -1,7 +1,7 @@
 package maratonajava.javacore.ZZHdesignpatterns.factory.domain;
 
 public class CurrencyFactory {
-    public Currency getCurrency(Country country) {
+    public static Currency getCurrency(Country country) {
         switch (country) {
             case USA:
                 return new UsaSign();
