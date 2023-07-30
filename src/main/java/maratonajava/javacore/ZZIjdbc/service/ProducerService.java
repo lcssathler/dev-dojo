@@ -9,7 +9,18 @@ public class ProducerService {
     }
 
     public static void delete(int id) {
-        if (id <= 0) throw new IllegalArgumentException("ERROR! Invalid id producer.");
+        requireValidId(id);
         ProducerRepository.delete(2);
+    }
+
+    public static void update(Producer producer) {
+        requireValidId(producer.getId());
+        ProducerRepository.update(producer);
+    }
+
+    public static void requireValidId(Integer id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("ERROR! Invalid id producer.");
+        }
     }
 }
