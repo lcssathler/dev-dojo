@@ -1,14 +1,11 @@
 package maratonajava.javacore.ZZIjdbc.domain;
 
+import lombok.Builder;
+import lombok.Value;
+
+@Value
+@Builder
 public class Producer {
     private Integer id;
     private String name;
-
-    public Producer(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
 }
