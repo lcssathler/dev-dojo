@@ -23,4 +23,18 @@ public class ProducerRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public static void delete(int id) {
+        String entity = "DELETE FROM `anime_store`.`producer` WHERE (`id` = '%d');"
+                .formatted(id);
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             Statement stmt = connection.createStatement()) {
+            int affectedRows = stmt.executeUpdate(entity);
+            log.info("Deleted ID: '{}' producer from database. Row affected: '{}'"
+                    , id, affectedRows);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
