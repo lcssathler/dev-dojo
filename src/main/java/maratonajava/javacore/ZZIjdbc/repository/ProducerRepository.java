@@ -5,8 +5,11 @@ import maratonajava.javacore.ZZIjdbc.connection.ConnectionFactory;
 import maratonajava.javacore.ZZIjdbc.domain.Producer;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 @Log4j2
 public class ProducerRepository {
@@ -49,5 +52,25 @@ public class ProducerRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static List<Producer> findAll() {
+        String sql = "SELECT id, name from anime_store.producer;";
+        List<Producer> allProducersFromRepository = new ArrayList<>();
+        try(Connection connection = ConnectionFactory.getConnection();
+            Statement stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                int idDB = resultSet.getInt("id");
+                String nameDB = resultSet.getString("name");
+                Producer producerFromDB = Producer.builder().id(idDB).name(nameDB).build();
+                allProducersFromRepository.add(producerFromDB);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return allProducersFromRepository;
     }
 }
