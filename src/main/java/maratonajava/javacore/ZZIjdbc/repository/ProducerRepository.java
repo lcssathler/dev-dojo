@@ -4,10 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import maratonajava.javacore.ZZIjdbc.connection.ConnectionFactory;
 import maratonajava.javacore.ZZIjdbc.domain.Producer;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,5 +74,27 @@ public class ProducerRepository {
             throw new RuntimeException(e);
         }
         return producerList;
+    }
+
+    public static void showProducerMetaData() {
+        log.info("Showing Producer metadatas...");
+        String sql = "SELECT * FROM anime_store.producer;";
+        try (Connection connection = ConnectionFactory.getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+            ResultSetMetaData rsMetaData = resultSet.getMetaData();
+            resultSet.next();
+            int columnCount = rsMetaData.getColumnCount();
+            for (int i = 1; i <= columnCount; i++) {
+                log.info("Table name: '{}'", rsMetaData.getTableName(i));
+                log.info("Column name: '{}'", rsMetaData.getColumnName(i));
+                log.info("Column size: '{}'", rsMetaData.getColumnDisplaySize(i));
+                log.info("Column size: '{}'", rsMetaData.getColumnTypeName(i));
+                System.out.println("-=".repeat(20));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

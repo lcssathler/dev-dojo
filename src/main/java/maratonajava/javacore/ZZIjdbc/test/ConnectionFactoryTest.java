@@ -14,6 +14,7 @@ public class ConnectionFactoryTest {
 //        ProducerService.delete(2);
 //        ProducerService.update(producer2);
 //        log.info(ProducerService.findAll());
-        log.info(ProducerService.findByName("shinra"));
+//        log.info(ProducerService.findByName("shinra"));
+        ProducerService.showMetaData();
     }
 }
