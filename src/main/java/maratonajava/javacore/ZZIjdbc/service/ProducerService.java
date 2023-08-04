@@ -12,7 +12,7 @@ public class ProducerService {
 
     public static void delete(int id) {
         requireValidId(id);
-        ProducerRepository.delete(2);
+        ProducerRepository.delete(id);
     }
 
     public static void update(Producer producer) {
@@ -30,6 +30,12 @@ public class ProducerService {
 
     public static void showMetaData() {
         ProducerRepository.showProducerMetaData();
+    }
+    public static void showDriverMetaData() {
+        ProducerRepository.showDriverMetaData();
+    }
+    public static void showTypeScrollWorking() {
+        ProducerRepository.showTypeScrollWorking();
     }
 
     public static void requireValidId(Integer id) {

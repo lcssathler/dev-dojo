@@ -97,4 +97,79 @@ public class ProducerRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public static void showDriverMetaData() {
+        log.info("Showing Driver metadatas...");
+        try (Connection connection = ConnectionFactory.getConnection()) {
+            DatabaseMetaData dbMetaData = connection.getMetaData();
+
+            if (dbMetaData.supportsResultSetType(ResultSet.TYPE_FORWARD_ONLY)) {
+                log.info("Supports TYPE_FORWARD_ONLY");
+                if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
+                    log.info("And supports CONCUR_UPDATABLE");
+                }
+            }
+
+            if (dbMetaData.supportsResultSetType(ResultSet.TYPE_SCROLL_INSENSITIVE)) {
+                log.info("Supports TYPE_SCROLL_INSENSITIVE");
+                if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+                    log.info("And supports CONCUR_UPDATABLE");
+                }
+            }
+
+            if (dbMetaData.supportsResultSetType(ResultSet.TYPE_SCROLL_SENSITIVE)) {
+                log.info("Supports TYPE_SCROLL_SENSITIVE");
+                if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+                    log.info("And supports CONCUR_UPDATABLE");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void showTypeScrollWorking() {
+        String sql = "SELECT * FROM anime_store.producer;";
+        try (Connection connection = ConnectionFactory.getConnection();
+             Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            log.info("First row? '{}'", rs.first());
+            log.info("Row number: '{}'", rs.getRow());
+            log.info(Producer.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
+            System.out.println("=-".repeat(35));
+
+            log.info("Last row? '{}'", rs.last());
+            log.info("Row number: '{}'", rs.getRow());
+            log.info(Producer.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
+            System.out.println("=-".repeat(35));
+
+            log.info("Absolute row? '{}'", rs.absolute(2));
+            log.info("Row number: '{}'", rs.getRow());
+            log.info(Producer.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
+            System.out.println("=-".repeat(35));
+
+            log.info("Relative row? '{}'", rs.relative(-1));
+            log.info("Row number: '{}'", rs.getRow());
+            log.info(Producer.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
+            System.out.println("=-".repeat(35));
+
+            log.info("Is first row? '{}'", rs.isFirst());
+            log.info("Row number: '{}'", rs.getRow());
+            System.out.println("=-".repeat(35));
+
+            log.info("Is last row? '{}'", rs.isLast());
+            log.info("Row number: '{}'", rs.getRow());
+            System.out.println("=-".repeat(35));
+
+            log.info("Last row? '{}'", rs.first());
+            rs.previous();
+            while (rs.next()) {
+                log.info(Producer.builder().id(rs.getInt("id")).name(rs.getString("name")).build());
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
