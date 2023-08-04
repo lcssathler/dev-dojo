@@ -172,4 +172,27 @@ public class ProducerRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<Producer> findByNameAndUpdateToUpperCase(String name) {
+        log.info("Finding entity by name and updating name to upper case");
+        String sql = "SELECT * FROM anime_store.producer where name like '%%%s%%';".formatted(name);
+        List<Producer> producerList = new ArrayList<>();
+        try (final Connection connection = ConnectionFactory.getConnection();
+             Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                rs.updateString("name", rs.getString("name").toUpperCase());
+                rs.updateRow();
+                Producer producerDB = Producer.builder()
+                    .id(rs.getInt("id"))
+                    .name(rs.getString("name"))
+                    .build();
+                producerList.add(producerDB);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return producerList;
+    }
 }

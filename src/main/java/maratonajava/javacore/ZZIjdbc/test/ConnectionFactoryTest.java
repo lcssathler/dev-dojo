@@ -17,6 +17,7 @@ public class ConnectionFactoryTest {
 //        log.info(ProducerService.findByName("shinra"));
 //        ProducerService.showMetaData();
 //        ProducerService.showDriverMetaData();
-        ProducerService.showTypeScrollWorking();
+//        ProducerService.showTypeScrollWorking();
+        log.info(ProducerService.findByNameAndUpdateToUpperCase("Mappa"));
     }
 }
