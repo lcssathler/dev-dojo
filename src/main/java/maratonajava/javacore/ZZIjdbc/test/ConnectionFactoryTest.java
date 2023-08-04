@@ -18,6 +18,8 @@ public class ConnectionFactoryTest {
 //        ProducerService.showMetaData();
 //        ProducerService.showDriverMetaData();
 //        ProducerService.showTypeScrollWorking();
-        log.info(ProducerService.findByNameAndUpdateToUpperCase("Mappa"));
+//        log.info(ProducerService.findByNameAndUpdateToUpperCase("Mappa"));
+//        log.info(ProducerService.insertNameIfNotFound("Disney"));
+        ProducerService.findByNameAndDelete("jojo");
     }
 }

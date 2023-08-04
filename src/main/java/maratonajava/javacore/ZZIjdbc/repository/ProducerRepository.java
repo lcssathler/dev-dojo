@@ -182,7 +182,8 @@ public class ProducerRepository {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                rs.updateString("name", rs.getString("name").toUpperCase());
+                rs.updateString("name", rs.getString("name").toLowerCase());
+                rs.cancelRowUpdates();
                 rs.updateRow();
                 Producer producerDB = Producer.builder()
                     .id(rs.getInt("id"))
@@ -194,5 +195,51 @@ public class ProducerRepository {
             throw new RuntimeException(e);
         }
         return producerList;
+    }
+
+    public static List<Producer> insertNameIfNotFound(String name) {
+        log.info("Inserting new name if not found in database");
+        String sql = "SELECT * FROM anime_store.producer where name like '%%%s%%';".formatted(name);
+        List<Producer> producerList = new ArrayList<>();
+        try (final Connection connection = ConnectionFactory.getConnection();
+             Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()){
+                log.info("Value already exists!");
+                return producerList;
+            }
+
+            rs.moveToInsertRow();
+            rs.updateString("name", name);
+            rs.insertRow();
+            log.info("Producer '{}'added", rs.getString("name"));
+
+            rs.first();
+            Producer producerDB = Producer.builder()
+                    .id(rs.getInt("id"))
+                    .name(rs.getString("name"))
+                    .build();
+            producerList.add(producerDB);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return producerList;
+    }
+
+    public static void findByNameAndDelete(String name) {
+        log.info("Deleting name if it exists");
+        String sql = "SELECT * FROM anime_store.producer where name like '%%%s%%';".formatted(name);
+        try (final Connection connection = ConnectionFactory.getConnection();
+             Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                log.info("Deleting Producer '{}'", rs.getString("name"));
+                rs.deleteRow();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
