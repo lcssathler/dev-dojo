@@ -186,9 +186,9 @@ public class ProducerRepository {
                 rs.cancelRowUpdates();
                 rs.updateRow();
                 Producer producerDB = Producer.builder()
-                    .id(rs.getInt("id"))
-                    .name(rs.getString("name"))
-                    .build();
+                        .id(rs.getInt("id"))
+                        .name(rs.getString("name"))
+                        .build();
                 producerList.add(producerDB);
             }
         } catch (SQLException e) {
@@ -205,7 +205,7 @@ public class ProducerRepository {
              Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
              ResultSet rs = stmt.executeQuery(sql)) {
 
-            if (rs.next()){
+            if (rs.next()) {
                 log.info("Value already exists!");
                 return producerList;
             }
@@ -242,4 +242,31 @@ public class ProducerRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<Producer> findByNamePreparedStatement(String name) {
+        log.info("Finding entity by name using PreparedStatement from database...");
+        String sql = "SELECT * FROM anime_store.producer where name like ?;";
+        List<Producer> producerList = new ArrayList<>();
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement stmt = createPreparedStatement(connection, sql, name);
+             ResultSet resultSet = stmt.executeQuery()) {
+
+            while (resultSet.next()) {
+                int idDB = resultSet.getInt("id");
+                String nameDB = resultSet.getString("name");
+                Producer producerDB = Producer.builder().id(idDB).name(nameDB).build();
+                producerList.add(producerDB);
+            }
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+        return producerList;
+    }
+
+    private static PreparedStatement createPreparedStatement(Connection conn, String sql, String name) throws SQLException {
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setString(1, String.format("%%%s%%", name));
+        return preparedStatement;
+    }
+
 }
