@@ -245,10 +245,9 @@ public class ProducerRepository {
 
     public static List<Producer> findByNamePreparedStatement(String name) {
         log.info("Finding entity by name using PreparedStatement from database...");
-        String sql = "SELECT * FROM anime_store.producer where name like ?;";
         List<Producer> producerList = new ArrayList<>();
         try (Connection connection = ConnectionFactory.getConnection();
-             PreparedStatement stmt = createPreparedStatement(connection, sql, name);
+             PreparedStatement stmt = preparedStatementFindByName(connection, name);
              ResultSet resultSet = stmt.executeQuery()) {
 
             while (resultSet.next()) {
@@ -263,9 +262,30 @@ public class ProducerRepository {
         return producerList;
     }
 
-    private static PreparedStatement createPreparedStatement(Connection conn, String sql, String name) throws SQLException {
+    private static PreparedStatement preparedStatementFindByName(Connection conn, String name) throws SQLException {
+        String sql = "SELECT * FROM anime_store.producer where name like ?;";
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.setString(1, String.format("%%%s%%", name));
+        return preparedStatement;
+    }
+
+    public static void updatePreparedStatement(Producer producer) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement ps = preparedStatementUpdate(connection, producer)) {
+
+            int affectedRows = ps.executeUpdate();
+            log.info("Updated ID: '{}' producer from database using PreparedStatement. Rows affected: '{}' "
+                    , producer.getId(), affectedRows);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static PreparedStatement preparedStatementUpdate(Connection conn, Producer producer) throws SQLException {
+        String sql = "UPDATE `anime_store`.`producer` SET `name` = ? WHERE (`id` = ?);";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setString(1, producer.getName());
+        preparedStatement.setInt(2, producer.getId());
         return preparedStatement;
     }
 
