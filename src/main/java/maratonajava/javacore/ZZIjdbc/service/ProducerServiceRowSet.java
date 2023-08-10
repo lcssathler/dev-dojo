@@ -9,4 +9,8 @@ public class ProducerServiceRowSet {
     public static List<Producer> findByNameRowSet(String name) {
         return ProduceRepositoryRowSet.findByNameRowSet(name);
     }
+
+    public static void updateRowSet(Producer producer) {
+        ProduceRepositoryRowSet.updateRowSet(producer);
+    }
 }

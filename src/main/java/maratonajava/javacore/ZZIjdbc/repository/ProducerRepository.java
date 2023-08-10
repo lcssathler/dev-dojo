@@ -17,6 +17,7 @@ public class ProducerRepository {
         try (Connection connection = ConnectionFactory.getConnection();
              Statement stmt = connection.createStatement()) {
             int affectedRows = stmt.executeUpdate(entity);
+
             log.info("Introduced new entity in the database. Row affected: '{}'"
                     , affectedRows);
         } catch (SQLException e) {
