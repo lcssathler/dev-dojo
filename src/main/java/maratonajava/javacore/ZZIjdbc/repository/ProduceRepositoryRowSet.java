@@ -1,9 +1,11 @@
 package maratonajava.javacore.ZZIjdbc.repository;
 
+import maratonajava.javacore.ZZIjdbc.connection.ConnectionFactoryCachedRowSet;
 import maratonajava.javacore.ZZIjdbc.connection.ConnectionFactoryJdbcRowSet;
 import maratonajava.javacore.ZZIjdbc.domain.Producer;
 import maratonajava.javacore.ZZIjdbc.listener.CustomRowSetListener;
 
+import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.JdbcRowSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -44,6 +46,23 @@ public class ProduceRepositoryRowSet {
 
             jrs.updateString("name", producer.getName());
             jrs.updateRow();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateCachedRowSet(Producer producer) {
+        String sql = "SELECT * FROM anime_store.producer WHERE (`id` = ?);";
+        try (CachedRowSet crs = ConnectionFactoryCachedRowSet.getCachedRowSet()) {
+            crs.addRowSetListener(new CustomRowSetListener());
+            crs.setCommand(sql);
+            crs.setInt(1, producer.getId());
+            crs.execute();
+
+            while (!crs.next()) return;
+
+            crs.updateString("name", producer.getName());
+            crs.updateRow();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -257,7 +257,7 @@ public class ProducerRepository {
                 Producer producerDB = Producer.builder().id(idDB).name(nameDB).build();
                 producerList.add(producerDB);
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return producerList;
@@ -290,4 +290,35 @@ public class ProducerRepository {
         return preparedStatement;
     }
 
+    public static void saveTransactionPreparedStatement(List<Producer> producers) {
+        try (Connection connection = ConnectionFactory.getConnection()) {
+            connection.setAutoCommit(false);
+            preparedStatementSaveTransaction(connection, producers);
+            connection.commit();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void preparedStatementSaveTransaction(Connection conn, List<Producer> producers) throws SQLException {
+        String sql = "INSERT INTO `anime_store`.`producer` (`name`) VALUES ( ? );";
+        boolean isRollback = false;
+        for (Producer producer : producers) {
+            try(PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, producer.getName());
+                if (producer.getName().equals("Telecine")) {
+                    throw new SQLException("Can't save producer 'Telecine'!");
+                }
+                log.info("Saving Producer '{}'", producer.getName());
+                ps.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                isRollback = true;
+            }
+            if (isRollback){
+                log.warn("Transaction is going to rollback");
+                conn.rollback();
+            }
+        }
+    }
 }

@@ -58,6 +58,10 @@ public class ProducerService {
         ProducerRepository.updatePreparedStatement(producer);
     }
 
+    public static void saveTransactionPreparedStatement(List<Producer> producers) {
+        ProducerRepository.saveTransactionPreparedStatement(producers);
+    }
+
     public static void requireValidId(Integer id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("ERROR! Invalid id producer.");
