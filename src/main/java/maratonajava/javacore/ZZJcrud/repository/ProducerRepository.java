@@ -43,7 +43,6 @@ public class ProducerRepository {
     }
 
     public static void deleteById(Integer id) {
-        String sql = "DELETE FROM `anime_store`.`producer` WHERE (`id` = ?);";
         try(Connection connection = ConnectionFactory.getConnection();
             PreparedStatement ps = deleteByIdPreparedStatement(connection, id)) {
             ps.execute();
@@ -58,6 +57,23 @@ public class ProducerRepository {
         String sql = "DELETE FROM `anime_store`.`producer` WHERE (`id` = ?);";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setInt(1, id);
+        return ps;
+    }
+
+    public static void save(Producer producer) {
+        try(Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement ps = savePreparedStatement(connection, producer)) {
+            ps.execute();
+            log.info("Saved Producer '{}'", producer.getName());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static PreparedStatement savePreparedStatement(Connection connection, Producer producer) throws SQLException {
+        String sql = "INSERT INTO `anime_store`.`producer` (`name`) VALUES (?);";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, producer.getName());
         return ps;
     }
 }

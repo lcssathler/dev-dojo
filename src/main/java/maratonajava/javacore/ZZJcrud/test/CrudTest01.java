@@ -10,16 +10,17 @@ public class CrudTest01 {
 
     public static void main(String[] args) {
         int option = 0;
-        List<Integer> choices = List.of(1, 2, 3);
+        List<Integer> choices = List.of(1, 2, 3, 4);
         while (!choices.contains(option)) {
             System.out.println("-".repeat(20) + "MENU" + "-".repeat(20));
             System.out.println("""
                                1. Find
                                2. Delete
-                               3. Exit""");
+                               3. Save
+                               4. Exit""");
             System.out.print("Choose a option: ");
             option = Integer.parseInt(SCANNER.nextLine());
-            if (option == 0) break;
+            if (option == 4) break;
             ProducerService.menu(option);
         }
     }

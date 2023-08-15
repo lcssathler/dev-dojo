@@ -11,12 +11,9 @@ public class ProducerService {
 
     public static void menu(int option) {
         switch (option) {
-            case 1:
-                findByName();
-                break;
-            case 2:
-                deleteById();
-                break;
+            case 1 -> findByName();
+            case 2 -> deleteById();
+            case 3 -> save();
         }
     }
 
@@ -31,19 +28,43 @@ public class ProducerService {
     }
 
     public static void deleteById() {
-        System.out.println("Producer ID to delete: ");
-        int id = Integer.parseInt(SCANNER.nextLine());
-        while (!checkValidId(id)) checkValidId(id);
-        ProducerRepository.deleteById(id);
+        while (true) {
+            System.out.print("Producer ID to delete: ");
+            int id = Integer.parseInt(SCANNER.nextLine());
+            if (checkValidId(id)){
+                ProducerRepository.deleteById(id);
+                return;
+            }
+        }
+    }
+
+    public static void save() {
+        System.out.print("Producer name to save: ");
+        String name = SCANNER.nextLine();
+        if (checkValidName(name)) {
+            Producer producer = Producer.builder().name(name).build();
+            ProducerRepository.save(producer);
+            return;
+        }
     }
 
     private static boolean checkValidId(Integer id) {
         boolean isValid = false;
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("Invalid ID!");
+            System.out.println(("Invalid ID!"));
+        } else {
+            isValid = true;
         }
+        return isValid;
+    }
 
-        isValid = true;
+    private static boolean checkValidName(String name) {
+        boolean isValid = false;
+        if (name == null || name.length() == 0) {
+            System.out.println("Invalid name! Try again.");
+        } else {
+            isValid = true;
+        }
         return isValid;
     }
 }
