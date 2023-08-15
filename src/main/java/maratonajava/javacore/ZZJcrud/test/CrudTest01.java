@@ -14,13 +14,14 @@ public class CrudTest01 {
         while (!choices.contains(option)) {
             System.out.println("-".repeat(20) + "MENU" + "-".repeat(20));
             System.out.println("""
-                               1. Find
-                               2. Delete
-                               3. Save
-                               4. Exit""");
+                               1. Save
+                               2. Find
+                               3. Update
+                               4. Delete
+                               5. Exit""");
             System.out.print("Choose a option: ");
             option = Integer.parseInt(SCANNER.nextLine());
-            if (option == 4) break;
+            if (option == 5) break;
             ProducerService.menu(option);
         }
     }

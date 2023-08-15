@@ -1,7 +1,6 @@
 package maratonajava.javacore.ZZJcrud.repository;
 
 
-
 import lombok.extern.log4j.Log4j2;
 import maratonajava.javacore.ZZJcrud.conn.ConnectionFactory;
 import maratonajava.javacore.ZZJcrud.domain.Producer;
@@ -24,9 +23,10 @@ public class ProducerRepository {
              ResultSet resultSet = stmt.executeQuery()) {
 
             while (resultSet.next()) {
-                int idDB = resultSet.getInt("id");
-                String nameDB = resultSet.getString("name");
-                Producer producerDB = Producer.builder().id(idDB).name(nameDB).build();
+                Producer producerDB = Producer.builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .build();
                 producerList.add(producerDB);
             }
         } catch (SQLException e) {
@@ -42,9 +42,32 @@ public class ProducerRepository {
         return preparedStatement;
     }
 
+    public static Producer findById(Integer id) {
+        Producer.ProducerBuilder foundProducer = Producer.builder();
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement ps = findByIdPreparedStatement(connection, id)) {
+
+            ResultSet resultSet = ps.executeQuery();
+            if (!resultSet.next()) throw new IllegalArgumentException("Producer not found by id!");
+            foundProducer
+                    .id(resultSet.getInt("id"))
+                    .name(resultSet.getString("name"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return foundProducer.build();
+    }
+
+    private static PreparedStatement findByIdPreparedStatement(Connection connection, Integer id) throws SQLException {
+        String sql = "SELECT * FROM anime_store.producer where id = ?;";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, id);
+        return ps;
+    }
+
     public static void deleteById(Integer id) {
-        try(Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement ps = deleteByIdPreparedStatement(connection, id)) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement ps = deleteByIdPreparedStatement(connection, id)) {
             ps.execute();
             log.info("Deleted Producer '{}' form database", id);
         } catch (SQLException e) {
@@ -61,8 +84,8 @@ public class ProducerRepository {
     }
 
     public static void save(Producer producer) {
-        try(Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement ps = savePreparedStatement(connection, producer)) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement ps = savePreparedStatement(connection, producer)) {
             ps.execute();
             log.info("Saved Producer '{}'", producer.getName());
         } catch (SQLException e) {
@@ -74,6 +97,24 @@ public class ProducerRepository {
         String sql = "INSERT INTO `anime_store`.`producer` (`name`) VALUES (?);";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, producer.getName());
+        return ps;
+    }
+
+    public static void update(Producer producer) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement ps = updatePreparedStatement(connection, producer)) {
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static PreparedStatement updatePreparedStatement(Connection connection, Producer producer) throws SQLException {
+        String sql = "UPDATE `anime_store`.`producer` SET `name` = ? WHERE (`id` = ?);";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, producer.getName());
+        ps.setInt(2, producer.getId());
         return ps;
     }
 }
