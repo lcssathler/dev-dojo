@@ -64,7 +64,7 @@ public class ProducerService {
         while (true) {
             System.out.print("Producer ID to delete: ");
             int id = Integer.parseInt(SCANNER.nextLine());
-            if (checkValidId(id)){
+            if (checkValidId(id)) {
                 ProducerRepository.deleteById(id);
                 return;
             }

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CrudTest01 {
-    private static final Scanner SCANNER  = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
         int option = 0;
