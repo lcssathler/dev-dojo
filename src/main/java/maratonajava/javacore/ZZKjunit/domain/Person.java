@@ -5,8 +5,6 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-
-
 public class Person {
     private int age;
 }
